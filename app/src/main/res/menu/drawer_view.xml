@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/aa"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/home"
+            android:title="Beranda"
+            android:checked="true" />
+
+        <item
+            android:id="@+id/nav_beritaterbaru"
+            android:icon="@mipmap/news"
+            android:title="Berita Terbaru" />
+
+        <item
+            android:id="@+id/nav_profil"
+            android:icon="@mipmap/classroom"
+            android:title="Profil" />
+
+        <item
+            android:id="@+id/nav_programstudi"
+            android:icon="@mipmap/student"
+            android:title="Program Studi" />
+
+        <item
+            android:id="@+id/nav_infokampus"
+            android:icon="@mipmap/apartment"
+            android:title="Info Kampus" />
+
+        <item
+            android:id="@+id/nav_arsipumum"
+            android:icon="@mipmap/courses"
+            android:title="Arsip Umum" />
+
+
+    </group>
+    <group
+        android:id="@+id/aab"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_kontakkami"
+            android:icon="@mipmap/support"
+            android:title="Kontak kami" />
+        <item
+            android:id="@+id/nav_tentangaplikasi"
+            android:icon="@mipmap/about"
+            android:title="Tentang Aplikasi" />
+    </group>
+
+
+</menu>
