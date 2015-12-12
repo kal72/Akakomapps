@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import community.rasckspira.akakomapps.fragment.Content2Fragment;
+import community.rasckspira.akakomapps.fragment.Content3Fragment;
 import community.rasckspira.akakomapps.fragment.ContentFragment;
+import community.rasckspira.akakomapps.fragment.FragmentJabatan;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,14 +70,31 @@ public class MainActivity extends AppCompatActivity {
                     // For rest of the options we just show a toast on click
 
                     case R.id.nav_profil:
-                        Toast.makeText(getApplicationContext(), "Stared Selected", Toast.LENGTH_SHORT).show();
                         Content2Fragment fragment2 = new Content2Fragment();
                         fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame, fragment2);
                         fragmentTransaction.commit();
                         return true;
+                    case R.id.nav_programstudi:
+                        Content3Fragment fragment3 = new Content3Fragment();
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment3);
+                        fragmentTransaction.commit();
+                        return true;
+                    case R.id.nav_jabatan:
+                        FragmentJabatan fragment4 = new FragmentJabatan();
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment4);
+                        fragmentTransaction.commit();
+                        return true;
                     case R.id.nav_infokampus:
-                        Toast.makeText(getApplicationContext(), "Send Selected", Toast.LENGTH_SHORT).show();
+
+                        return true;
+                    case R.id.nav_kontakkami:
+                        return true;
+                    case R.id.nav_tentangaplikasi:
+                        DialogFrament customDialogFragment = new DialogFrament();
+                        customDialogFragment.show(getSupportFragmentManager(), null);
                         return true;
 
                     default:

@@ -5,6 +5,7 @@ package community.rasckspira.akakomapps;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +42,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
         Data item = mItems.get(i);
 
-        myViewHolder.judul.setText(item.getJudul());
+        myViewHolder.judul.setText(item.getNama().toString());
+        myViewHolder.desJudul.setText(item.getJudul().toString());
+        MyViewHolder.iDetail = item.getDetail();
+        MyViewHolder.iLink = item.getLink();
 
 
     }
@@ -52,10 +56,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView judul;
+        public TextView desJudul;
         public CardView cv;
+        public static String iDetail;
+        public static String iLink;
 
 
         public MyViewHolder(View itemView) {
@@ -67,18 +74,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
             //this.img = (ImageView)itemView.findViewById(R.id.img);
             this.judul = (TextView) itemView.findViewById(R.id.person_name);
+            this.desJudul = (TextView) itemView.findViewById(R.id.judul_des);
             this.cv = (CardView) itemView.findViewById(R.id.cv);
             // this.desWisata = (TextView)itemView.findViewById(R.id.des_wisata);
             // judulWisata.setTypeface(robotobold);
             // desWisata.setTypeface(robotoregular);
-            //itemView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View view) {
 
-            //Context Mcontext = itemView.getContext();
+            Context Mcontext = itemView.getContext();
+            Intent intent = new Intent(Mcontext, DetailActivity.class);
+            intent.putExtra("iJudul", judul.getText());
+            intent.putExtra("idesJudul", desJudul.getText());
+            intent.putExtra("iDetail", iDetail);
+            intent.putExtra("iLink", iLink);
+            Mcontext.startActivity(intent);
 
         }
     }

@@ -9,10 +9,6 @@
             android:title="Beranda"
             android:checked="true" />
 
-        <item
-            android:id="@+id/nav_beritaterbaru"
-            android:icon="@mipmap/news"
-            android:title="Berita Terbaru" />
 
         <item
             android:id="@+id/nav_profil"
@@ -20,19 +16,23 @@
             android:title="Profil" />
 
         <item
+            android:id="@+id/nav_beritaterbaru"
+            android:icon="@mipmap/news"
+            android:title="Berita Terbaru" />
+
+        <item
             android:id="@+id/nav_programstudi"
             android:icon="@mipmap/student"
             android:title="Program Studi" />
+        <item
+            android:id="@+id/nav_jabatan"
+            android:icon="@mipmap/jabatan"
+            android:title="Jabatan" />
 
         <item
             android:id="@+id/nav_infokampus"
             android:icon="@mipmap/apartment"
             android:title="Info Kampus" />
-
-        <item
-            android:id="@+id/nav_arsipumum"
-            android:icon="@mipmap/courses"
-            android:title="Arsip Umum" />
 
 
     </group>
