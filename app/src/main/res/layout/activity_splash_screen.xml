@@ -7,11 +7,23 @@
     android:paddingLeft="16dp"
     android:paddingRight="12dp"
     android:gravity="center|top"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:paddingBottom="0dp">
 
     <ImageView
         android:layout_width="400dp"
         android:layout_height="390dp"
         android:src="@drawable/imagesplash" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="dikembangkan oleh" />
+
+    <ImageView
+        android:layout_width="95dp"
+        android:layout_height="38dp"
+        android:src="@drawable/rackspiraa"
+        android:layout_gravity="center_horizontal|bottom" />
 
 </LinearLayout>
