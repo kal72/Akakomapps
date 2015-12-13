@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import community.rasckspira.akakomapps.fragment.BeritaFragment;
 import community.rasckspira.akakomapps.fragment.Content2Fragment;
 import community.rasckspira.akakomapps.fragment.Content3Fragment;
 import community.rasckspira.akakomapps.fragment.ContentFragment;
 import community.rasckspira.akakomapps.fragment.FragmentJabatan;
+import community.rasckspira.akakomapps.fragment.KampusFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,7 +90,16 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.commit();
                         return true;
                     case R.id.nav_infokampus:
-
+                        KampusFragment fragment5 = new KampusFragment();
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment5);
+                        fragmentTransaction.commit();
+                        return true;
+                    case R.id.nav_beritaterbaru:
+                        BeritaFragment fragment6 = new BeritaFragment();
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment6);
+                        fragmentTransaction.commit();
                         return true;
                     case R.id.nav_kontakkami:
                         return true;

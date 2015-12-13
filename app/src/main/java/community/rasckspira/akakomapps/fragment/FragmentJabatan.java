@@ -1,15 +1,20 @@
 package community.rasckspira.akakomapps.fragment;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -26,6 +31,8 @@ import community.rasckspira.akakomapps.Data;
 import community.rasckspira.akakomapps.R;
 import community.rasckspira.akakomapps.RecyclerAdapter1;
 
+import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -36,6 +43,7 @@ public class FragmentJabatan extends Fragment {
     RecyclerAdapter1 mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
     private String urlJurusan = "http://service.rackspira.community/rest/rjson/pejabat.json";
+    public LinearLayout ll;
 
     @Nullable
 
@@ -52,6 +60,8 @@ public class FragmentJabatan extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_fragment_jabatan, container, false);
 
+        ll = (LinearLayout) v.findViewById(R.id.ll);
+        ll.setVisibility(View.VISIBLE);
 
         feedItemList = new ArrayList<Data>();
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view1);
@@ -59,6 +69,12 @@ public class FragmentJabatan extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
+        getDataJson(v);
+
+        return v;
+    }
+
+    public void getDataJson(final View view) {
         final JsonArrayRequest request = new JsonArrayRequest(urlJurusan,
                 new Response.Listener<JSONArray>() {
 
@@ -77,6 +93,7 @@ public class FragmentJabatan extends Fragment {
                                 feedItemList.add(item);
 
                             }
+                            ll.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -91,14 +108,22 @@ public class FragmentJabatan extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error.toString());
+                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
+                        snackbar.setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                getDataJson(view);
+                            }
+                        });
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                        textView.setTextColor(Color.WHITE);
+                        snackbar.show();
                     }
                 }
         );
-
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
-
-        return v;
     }
-
 
 }

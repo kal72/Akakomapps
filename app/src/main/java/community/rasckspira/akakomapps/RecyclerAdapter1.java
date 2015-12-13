@@ -3,13 +3,14 @@ package community.rasckspira.akakomapps;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -84,8 +85,17 @@ public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.MyVi
             ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("email ", jEmail.getText());
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(view.getContext(), "Email Copied to Clipboard",
-                    Toast.LENGTH_LONG).show();
+            final Snackbar snackbar = Snackbar.make(view.getRootView(), "Email Copied", Snackbar.LENGTH_SHORT);
+            snackbar.setAction("OKE", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.WHITE);
+            snackbar.show();
 
         }
     }

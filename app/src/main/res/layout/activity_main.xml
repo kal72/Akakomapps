@@ -27,6 +27,13 @@
 
         </FrameLayout>
     </RelativeLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/snackbarCoordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.design.widget.CoordinatorLayout>
     <!-- nav drawer-->
 
     <android.support.design.widget.NavigationView
@@ -41,5 +48,6 @@
         app:itemIconTint="@color/colorDrawer"
         app:itemTextColor="@color/drawer_selector"
         app:menu="@menu/drawer_view" />
+
 
 </android.support.v4.widget.DrawerLayout>

@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import community.rasckspira.akakomapps.AppController;
+import community.rasckspira.akakomapps.BeritaAdapter;
 import community.rasckspira.akakomapps.Data;
-import community.rasckspira.akakomapps.InfokampusAdapter;
 import community.rasckspira.akakomapps.R;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
@@ -36,14 +36,14 @@ import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class KampusFragment extends Fragment {
+public class BeritaFragment extends Fragment {
 
 
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
-    InfokampusAdapter mAdapter;
+    BeritaAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
-    private String urls = "http://service.rackspira.community/rest/rjson/infokampus.json";
+    private String urls = "http://service.rackspira.community/rest/rjson/berita.json";
     public LinearLayout ll;
 
     @Nullable
@@ -59,18 +59,18 @@ public class KampusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_kampus, container, false);
+        View v = inflater.inflate(R.layout.fragment_berita, container, false);
 
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
 
         feedItemList = new ArrayList<Data>();
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_kampus);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_berita);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
         getDataJson(v);
+
 
         return v;
     }
@@ -89,7 +89,9 @@ public class KampusFragment extends Fragment {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 Data item = new Data();
                                 item.setNama(jsonObject.getString("judul"));
-                                item.setLink(jsonObject.getString("link"));
+                                String deskripsi = jsonObject.getString("isi");
+                                item.setJudul(deskripsi.substring(0, 100));
+                                item.setDetail(deskripsi);
                                 feedItemList.add(item);
 
                             }
@@ -98,7 +100,7 @@ public class KampusFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mAdapter = new InfokampusAdapter(getActivity(), feedItemList);
+                        mAdapter = new BeritaAdapter(getActivity(), feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 },
@@ -122,8 +124,9 @@ public class KampusFragment extends Fragment {
                     }
                 }
         );
-        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+        request.setRetryPolicy(new DefaultRetryPolicy(10 * 100, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
     }
+
 
 }

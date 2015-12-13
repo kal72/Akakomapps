@@ -9,34 +9,33 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cvkampus">
+        android:id="@+id/cv_berita">
 
         <RelativeLayout
             android:layout_width="10dp"
             android:layout_height="match_parent"
-            android:background="@color/colorItemRed" />
+            android:background="@color/colorDrawer" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="10dp"
             android:layout_marginLeft="10dp">
 
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/nama_infokampus"
-                android:layout_alignParentTop="true"
-                android:textSize="@dimen/size_sp_28"
+                android:id="@+id/nama_berita"
+                android:textSize="@dimen/size_dp18"
                 android:text="Judul menu"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/des_kampus"
-                android:layout_below="@id/nama_infokampus"
+                android:id="@+id/des_berita"
+                android:layout_below="@id/nama_berita"
                 android:textSize="14sp"
                 android:text="deskripi"
                 android:textColor="@color/colorSecondGray" />

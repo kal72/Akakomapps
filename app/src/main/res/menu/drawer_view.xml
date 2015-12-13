@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_profil"
             android:icon="@mipmap/classroom"
-            android:title="Profil" />
+            android:title="Visi Misi" />
 
         <item
             android:id="@+id/nav_beritaterbaru"
