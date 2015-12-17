@@ -42,7 +42,7 @@
         <item
             android:id="@+id/nav_kontakkami"
             android:icon="@mipmap/support"
-            android:title="Kontak kami" />
+            android:title="Kontak Kampus" />
         <item
             android:id="@+id/nav_tentangaplikasi"
             android:icon="@mipmap/about"

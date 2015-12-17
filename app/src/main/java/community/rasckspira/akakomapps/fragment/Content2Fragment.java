@@ -108,6 +108,7 @@ public class Content2Fragment extends Fragment {
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                snackbar.dismiss();
                                 getDataJson(view);
                             }
                         });
@@ -118,7 +119,7 @@ public class Content2Fragment extends Fragment {
                     }
                 }
         );
-        request.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
+        request.setRetryPolicy(new DefaultRetryPolicy(10 * 100, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
     }
 

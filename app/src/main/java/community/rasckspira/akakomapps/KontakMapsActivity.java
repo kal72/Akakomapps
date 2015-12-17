@@ -37,7 +37,7 @@ public class KontakMapsActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("Kontak kami");
+        toolbarTitle.setText("Kontak Kampus");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

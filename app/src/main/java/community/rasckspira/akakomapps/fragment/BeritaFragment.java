@@ -114,6 +114,7 @@ public class BeritaFragment extends Fragment {
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                snackbar.dismiss();
                                 getDataJson(view);
                             }
                         });
