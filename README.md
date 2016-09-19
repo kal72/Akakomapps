@@ -1,4 +1,4 @@
 # Akakomapps
 by: Rackspira
 
-Masih dalam pengembangan
+Masih dalam pengembangan.
