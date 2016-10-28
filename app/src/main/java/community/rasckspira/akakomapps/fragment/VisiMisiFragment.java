@@ -6,103 +6,88 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import community.rasckspira.akakomapps.helper.AppController;
-import community.rasckspira.akakomapps.helper.Config;
-import community.rasckspira.akakomapps.model.Data;
 import community.rasckspira.akakomapps.R;
-import community.rasckspira.akakomapps.adapter.RecyclerAdapter1;
+import community.rasckspira.akakomapps.helper.Config;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
+import static community.rasckspira.akakomapps.helper.AppController.TAG;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragmentJabatan extends Fragment {
 
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerAdapter1 mAdapter;
-    private List<Data> feedItemList = new ArrayList<Data>();
-    private String URL;
+public class VisiMisiFragment extends Fragment {
+
+    private TextView txtVisi;
+    private TextView txtMisi;
+    private String urlVisiMisi;
     public LinearLayout ll;
-
-    @Nullable
+    private ProgressBar loading;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_fragment_jabatan, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_visi_misi, container, false);
         initView(v);
-        getDataJson(v);
+       getDataJson(v);
         return v;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     private void initView(View v){
-        mLayoutManager = new LinearLayoutManager(getActivity());
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-
-        feedItemList = new ArrayList<Data>();
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view1);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        URL = Config.URL_JABATAN;
+        txtMisi = (TextView) v.findViewById(R.id.misi);
+        txtVisi = (TextView) v.findViewById(R.id.visi);
+        loading = (ProgressBar) v.findViewById(R.id.loading);
+        urlVisiMisi = Config.URL_VISI_MISI;
     }
 
     public void getDataJson(final View view) {
-        final JsonArrayRequest request = new JsonArrayRequest(URL,
+        final JsonArrayRequest request = new JsonArrayRequest(urlVisiMisi,
                 new Response.Listener<JSONArray>() {
 
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        System.out.println(response.toString());
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
-                                Data item = new Data();
-                                item.setNama(jsonObject.getString("nama"));
-                                item.setPosisi(jsonObject.getString("jabatan"));
-                                item.setEmail(jsonObject.getString("email"));
-                                feedItemList.add(item);
-
+                                txtVisi.setText(jsonObject.getString("visi").toString());
+                                txtMisi.setText(jsonObject.getString("misi").toString());
                             }
+
                             ll.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mAdapter = new RecyclerAdapter1(getActivity(), feedItemList);
-                        mRecyclerView.setAdapter(mAdapter);
                     }
                 },
 
@@ -117,17 +102,22 @@ public class FragmentJabatan extends Fragment {
                             public void onClick(View v) {
                                 snackbar.dismiss();
                                 getDataJson(view);
+                                loading.setVisibility(View.VISIBLE);
                             }
                         });
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
                         snackbar.show();
+                        loading.setVisibility(View.GONE);
+                        Log.i(TAG, "onErrorResponse: "+urlVisiMisi);
+
                     }
                 }
         );
         request.setRetryPolicy(new DefaultRetryPolicy(10 * 100, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
     }
+
 
 }

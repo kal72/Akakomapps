@@ -9,17 +9,20 @@
             android:title="Beranda"
             android:checked="true" />
 
-
         <item
             android:id="@+id/nav_profil"
             android:icon="@mipmap/classroom"
+            android:title="Profil" />
+        <item
+            android:id="@+id/nav_visi_misi"
+            android:icon="@mipmap/classroom"
             android:title="Visi Misi" />
 
-        <item
+     <!--   <item
             android:id="@+id/nav_beritaterbaru"
             android:icon="@mipmap/news"
             android:title="Berita Terbaru" />
-
+-->
         <item
             android:id="@+id/nav_programstudi"
             android:icon="@mipmap/student"
@@ -28,11 +31,11 @@
             android:id="@+id/nav_jabatan"
             android:icon="@mipmap/jabatan"
             android:title="Jabatan" />
-
+<!--
         <item
             android:id="@+id/nav_infokampus"
             android:icon="@mipmap/apartment"
-            android:title="Info Kampus" />
+            android:title="Info Kampus" />-->
 
 
     </group>

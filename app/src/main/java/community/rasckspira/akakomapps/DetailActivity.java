@@ -27,6 +27,13 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         Intent intens = getIntent();
         Bundle a = intens.getExtras();
         String mjudul = a.getString("mJudul");
@@ -51,12 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         desJudul.setText(mdesJudul.toString());
         detail.setText(mDetail.toString());
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
 
 
     }

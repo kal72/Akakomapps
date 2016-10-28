@@ -1,4 +1,4 @@
-package community.rasckspira.akakomapps;
+package community.rasckspira.akakomapps.adapter;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import community.rasckspira.akakomapps.model.Data;
+import community.rasckspira.akakomapps.R;
 
 /**
  * Created by dedevalen on 14/09/15.

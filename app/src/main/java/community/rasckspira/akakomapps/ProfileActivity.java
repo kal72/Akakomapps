@@ -1,14 +1,13 @@
-package community.rasckspira.akakomapps.fragment;
+package community.rasckspira.akakomapps;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -20,45 +19,43 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import community.rasckspira.akakomapps.AppController;
-import community.rasckspira.akakomapps.R;
+import community.rasckspira.akakomapps.helper.AppController;
+import community.rasckspira.akakomapps.helper.Config;
 
-/**
- * Created by Admin on 04-06-2015.
- */
-public class ContentFragment extends Fragment {
+public class ProfileActivity extends AppCompatActivity {
     private TextView judulProfil;
     private TextView isiProfil;
-    private String urls = "http://service.rackspira.community/rest/rjson/profil.json";
+    private String urls = Config.URL_PROFILE;
     public LinearLayout ll;
-
-
-    @Nullable
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
+    private RelativeLayout activity;
+    private Toolbar toolbar;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_content, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        toolbar = (Toolbar) findViewById(R.id.tolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        ll = (LinearLayout) v.findViewById(R.id.ll);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        initView();
+        getDataJson();
+    }
+    private void initView(){
+        activity = (RelativeLayout) findViewById(R.id.activity_profile);
+        ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-
-
-        judulProfil = (TextView) v.findViewById(R.id.judul_profil);
-        isiProfil = (TextView) v.findViewById(R.id.isi_profil);
-
-
-        getDataJson(v);
-
-
-        return v;
-
+        judulProfil = (TextView) findViewById(R.id.judul_profil);
+        isiProfil = (TextView) findViewById(R.id.isi_profil);
     }
 
-    public void getDataJson(final View view) {
+    private void getDataJson() {
 
         final JsonArrayRequest request = new JsonArrayRequest(urls,
                 new Response.Listener<JSONArray>() {
@@ -73,18 +70,13 @@ public class ContentFragment extends Fragment {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 judulProfil.setText(jsonObject.getString("judul").toString());
                                 isiProfil.setText(jsonObject.getString("isi").toString());
-
                             }
-
                             ll.setVisibility(View.GONE);
                             //snackbars.dismiss();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             //snackbars.dismiss();
                         }
-
-
                     }
                 },
 
@@ -95,12 +87,12 @@ public class ContentFragment extends Fragment {
                         System.out.println(error.toString());
 
 
-                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "koneksi bermasalah...", Snackbar.LENGTH_INDEFINITE);
+                        final Snackbar snackbar = Snackbar.make(activity, "koneksi bermasalah...", Snackbar.LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
-                                getDataJson(view);
+                                getDataJson();
                             }
                         });
                         View sbView = snackbar.getView();

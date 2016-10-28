@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,28 +17,35 @@ import android.widget.TextView;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.NetworkImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import community.rasckspira.akakomapps.AppController;
+import java.util.ArrayList;
+import java.util.List;
+
+import community.rasckspira.akakomapps.helper.AppController;
+import community.rasckspira.akakomapps.helper.Config;
+import community.rasckspira.akakomapps.model.Data;
 import community.rasckspira.akakomapps.R;
+import community.rasckspira.akakomapps.adapter.RecyclerAdapter;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 
 
-public class Content2Fragment extends Fragment {
+public class JurusanFragment extends Fragment {
 
-    private TextView txtVisi;
-    private TextView txtMisi;
-    private TextView txtTujuan;
-    private NetworkImageView imgProfil;
-    private String urlProfil = "http://service.rackspira.community/rest/rjson/visimisi.json";
+
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerAdapter mAdapter;
+    private List<Data> feedItemList = new ArrayList<Data>();
+    private String urlJurusan;
     public LinearLayout ll;
+
+    @Nullable
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,16 +56,9 @@ public class Content2Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_content2, container, false);
+        View v = inflater.inflate(R.layout.fragment_jurusan, container, false);
 
-        ll = (LinearLayout) v.findViewById(R.id.ll);
-        ll.setVisibility(View.VISIBLE);
-
-        imgProfil = (NetworkImageView) v.findViewById(R.id.img_profil);
-        txtMisi = (TextView) v.findViewById(R.id.misi);
-        txtVisi = (TextView) v.findViewById(R.id.visi);
-        txtTujuan = (TextView) v.findViewById(R.id.tujuan);
-
+        initView(v);
         getDataJson(v);
 
 
@@ -70,32 +72,42 @@ public class Content2Fragment extends Fragment {
 
     }
 
+    private void initView(View v){
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        ll = (LinearLayout) v.findViewById(R.id.ll);
+        ll.setVisibility(View.VISIBLE);
+
+        feedItemList = new ArrayList<Data>();
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        urlJurusan = Config.URL_JURUSAN;
+    }
     public void getDataJson(final View view) {
-        final ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        final JsonArrayRequest request = new JsonArrayRequest(urlProfil,
+        final JsonArrayRequest request = new JsonArrayRequest(urlJurusan,
                 new Response.Listener<JSONArray>() {
 
                     @Override
                     public void onResponse(JSONArray response) {
 
+                        System.out.println(response.toString());
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
-                                txtVisi.setText(jsonObject.getString("visi").toString());
-                                txtMisi.setText(jsonObject.getString("misi").toString());
-                                txtTujuan.setText(jsonObject.getString("tujuan").toString());
-                                String urlImage = jsonObject.getString("gambar").toString();
+                                Data item = new Data();
+                                item.setNama(jsonObject.getString("namJurusan"));
+                                item.setDetail(jsonObject.getString("detJurusan"));
+                                item.setLink(jsonObject.getString("link"));
+                                feedItemList.add(item);
 
-
-                                imgProfil.setImageUrl(urlImage, imageLoader);
                             }
-
                             ll.setVisibility(View.GONE);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        mAdapter = new RecyclerAdapter(getActivity(), feedItemList);
+                        mRecyclerView.setAdapter(mAdapter);
                     }
                 },
 

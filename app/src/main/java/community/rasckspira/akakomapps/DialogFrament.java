@@ -31,7 +31,7 @@ public class DialogFrament extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.fragment_dialog_frament, null);
-        urls = (TextView) view.findViewById(R.id.url);
+//        urls = (TextView) view.findViewById(R.id.url);
 
 
         // Inflate and set the layout for the dialog

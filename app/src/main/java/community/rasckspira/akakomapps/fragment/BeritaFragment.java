@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,9 +27,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import community.rasckspira.akakomapps.AppController;
-import community.rasckspira.akakomapps.BeritaAdapter;
-import community.rasckspira.akakomapps.Data;
+import community.rasckspira.akakomapps.helper.AppController;
+import community.rasckspira.akakomapps.adapter.BeritaAdapter;
+import community.rasckspira.akakomapps.helper.Config;
+import community.rasckspira.akakomapps.model.Data;
 import community.rasckspira.akakomapps.R;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
@@ -39,11 +41,11 @@ import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 public class BeritaFragment extends Fragment {
 
 
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    BeritaAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private BeritaAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
-    private String urls = "http://service.rackspira.community/rest/rjson/berita.json";
+    private String urls;
     public LinearLayout ll;
 
     @Nullable
@@ -61,6 +63,12 @@ public class BeritaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_berita, container, false);
 
+        initView(v);
+        getDataJson(v);
+        return v;
+    }
+
+    private void initView(View v){
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
 
@@ -68,11 +76,7 @@ public class BeritaFragment extends Fragment {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_berita);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        getDataJson(v);
-
-
-        return v;
+        urls = Config.URL_BERITA;
     }
 
     public void getDataJson(final View view) {
@@ -88,10 +92,12 @@ public class BeritaFragment extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 Data item = new Data();
-                                item.setNama(jsonObject.getString("judul"));
-                                String deskripsi = jsonObject.getString("isi");
-                                item.setJudul(deskripsi.substring(0, 100));
-                                item.setDetail(deskripsi);
+                                item.setJudul(jsonObject.getString("jBerita"));
+                                item.setWaktu(jsonObject.getString("wBerita"));
+                                item.setFoto(jsonObject.getString("gamBerita"));
+                                item.setDetail(jsonObject.getString("isBerita"));
+//                                item.setJudul(deskripsi.substring(0, 100));
+//                                item.setDetail(deskripsi);
                                 feedItemList.add(item);
 
                             }

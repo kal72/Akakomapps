@@ -1,17 +1,15 @@
-package community.rasckspira.akakomapps.fragment;
-
+package community.rasckspira.akakomapps;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -26,59 +24,57 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import community.rasckspira.akakomapps.adapter.RecyclerAdapter;
 import community.rasckspira.akakomapps.helper.AppController;
 import community.rasckspira.akakomapps.helper.Config;
 import community.rasckspira.akakomapps.model.Data;
-import community.rasckspira.akakomapps.R;
-import community.rasckspira.akakomapps.adapter.RecyclerAdapter1;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FragmentJabatan extends Fragment {
-
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    RecyclerAdapter1 mAdapter;
+public class JurusanActivity extends AppCompatActivity {
+    private LinearLayout activity;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
-    private String URL;
+    private String urlJurusan;
     public LinearLayout ll;
-
-    @Nullable
-
+    private Toolbar toolbar;
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        setContentView(R.layout.activity_jurusan);
+        initView();
+        getDataJson();
     }
 
+    private void initView(){
+        toolbar = (Toolbar) findViewById(R.id.tolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_fragment_jabatan, container, false);
-        initView(v);
-        getDataJson(v);
-        return v;
-    }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-    private void initView(View v){
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        ll = (LinearLayout) v.findViewById(R.id.ll);
+        mLayoutManager = new LinearLayoutManager(this);
+        ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
 
+        activity = (LinearLayout) findViewById(R.id.activity_jurusan);
         feedItemList = new ArrayList<Data>();
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view1);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        URL = Config.URL_JABATAN;
+        urlJurusan = Config.URL_JURUSAN;
     }
 
-    public void getDataJson(final View view) {
-        final JsonArrayRequest request = new JsonArrayRequest(URL,
+    public void getDataJson() {
+        final JsonArrayRequest request = new JsonArrayRequest(urlJurusan,
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -90,18 +86,17 @@ public class FragmentJabatan extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 Data item = new Data();
-                                item.setNama(jsonObject.getString("nama"));
-                                item.setPosisi(jsonObject.getString("jabatan"));
-                                item.setEmail(jsonObject.getString("email"));
+                                item.setNama(jsonObject.getString("namJurusan"));
+                                item.setDetail(jsonObject.getString("detJurusan"));
+                                item.setLink(jsonObject.getString("link"));
                                 feedItemList.add(item);
 
                             }
                             ll.setVisibility(View.GONE);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        mAdapter = new RecyclerAdapter1(getActivity(), feedItemList);
+                        mAdapter = new RecyclerAdapter(JurusanActivity.this, feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 },
@@ -111,12 +106,12 @@ public class FragmentJabatan extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error.toString());
-                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
+                        final Snackbar snackbar = Snackbar.make(activity, "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
-                                getDataJson(view);
+                                getDataJson();
                             }
                         });
                         View sbView = snackbar.getView();
@@ -129,5 +124,4 @@ public class FragmentJabatan extends Fragment {
         request.setRetryPolicy(new DefaultRetryPolicy(10 * 100, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
     }
-
 }

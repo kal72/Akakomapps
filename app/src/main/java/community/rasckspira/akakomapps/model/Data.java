@@ -1,4 +1,4 @@
-package community.rasckspira.akakomapps;
+package community.rasckspira.akakomapps.model;
 
 /**
  * Created by kristiawan on 09/12/15.
@@ -9,6 +9,8 @@ public class Data {
     private String nama;
     private String judul;
 
+    private String waktu;
+
     private String link;
     private String detail;
 
@@ -17,6 +19,14 @@ public class Data {
 
     public Data() {
 
+    }
+
+    public String getWaktu() {
+        return waktu;
+    }
+
+    public void setWaktu(String waktu) {
+        this.waktu = waktu;
     }
 
     public String getFoto() {
