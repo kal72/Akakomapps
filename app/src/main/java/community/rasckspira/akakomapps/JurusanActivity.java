@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
@@ -35,6 +36,8 @@ public class JurusanActivity extends AppCompatActivity {
     private String urlJurusan;
     public LinearLayout ll, noInternet;
     private Toolbar toolbar;
+    private TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,8 @@ public class JurusanActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("Jurusan");
         mLayoutManager = new LinearLayoutManager(this);
         ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);

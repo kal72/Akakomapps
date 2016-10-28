@@ -35,6 +35,7 @@ public class VisiMisiActivity extends AppCompatActivity {
     public LinearLayout ll, noInternet;
     private ProgressBar loading;
     private RelativeLayout activity;
+    private TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,8 @@ public class VisiMisiActivity extends AppCompatActivity {
         activity = (RelativeLayout) findViewById(R.id.activity_visi_misi);
         ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("Visi dan Misi");
         noInternet = (LinearLayout) findViewById(R.id.ll_nointernet);
         txtMisi = (TextView) findViewById(R.id.misi);
         txtVisi = (TextView) findViewById(R.id.visi);

@@ -30,6 +30,8 @@ public class ProfileActivity extends AppCompatActivity {
     public LinearLayout ll, noInternet;
     private RelativeLayout activity;
     private Toolbar toolbar;
+    private TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
         activity = (RelativeLayout) findViewById(R.id.activity_profile);
         ll = (LinearLayout) findViewById(R.id.ll);
         noInternet = (LinearLayout) findViewById(R.id.ll_nointernet);
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("Profil");
         ll.setVisibility(View.VISIBLE);
         judulProfil = (TextView) findViewById(R.id.judul_profil);
         isiProfil = (TextView) findViewById(R.id.isi_profil);

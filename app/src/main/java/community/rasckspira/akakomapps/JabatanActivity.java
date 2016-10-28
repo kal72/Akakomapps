@@ -40,6 +40,7 @@ public class JabatanActivity extends AppCompatActivity {
     private String URL;
     public LinearLayout ll, noInternet;
     private Toolbar toolbar;
+    private TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class JabatanActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        title = (TextView) findViewById(R.id.toolbar_title);
         activity = (LinearLayout) findViewById(R.id.activity_jabatan);
         mLayoutManager = new LinearLayoutManager(this);
         ll = (LinearLayout) findViewById(R.id.ll);
@@ -78,6 +79,7 @@ public class JabatanActivity extends AppCompatActivity {
                 getDataJson();
             }
         });
+        title.setText("Pejabat");
     }
 
     public void getDataJson() {

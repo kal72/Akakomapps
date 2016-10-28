@@ -6,12 +6,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class WebViewActivity extends AppCompatActivity {
     public static final String KEY_HEADER = "header";
     public static final String KEY_URL = "url";
     private WebView web;
     private Toolbar toolbar;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,8 @@ public class WebViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(getIntent().getExtras().getString(KEY_HEADER));
-
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText(getIntent().getExtras().getString(KEY_HEADER));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

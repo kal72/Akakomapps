@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
     private Button fb;
     private Toolbar toolbar;
+    private TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,9 @@ public class AboutActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("Tentang Aplikasi");
 
         fb = (Button) findViewById(R.id.url);
         fb.setOnClickListener(new View.OnClickListener() {
