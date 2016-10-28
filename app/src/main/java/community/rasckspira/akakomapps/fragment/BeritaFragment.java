@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +47,7 @@ public class BeritaFragment extends Fragment {
     private BeritaAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
     private String urls;
-    public LinearLayout ll;
-
-    @Nullable
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-    }
+    public LinearLayout ll, noInternet;
 
 
     @Override
@@ -69,20 +61,28 @@ public class BeritaFragment extends Fragment {
     }
 
     private void initView(View v){
+        noInternet = (LinearLayout) v.findViewById(R.id.ll_nointernet);
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-
+        mLayoutManager = new LinearLayoutManager(getActivity());
         feedItemList = new ArrayList<Data>();
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_berita);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         urls = Config.URL_BERITA;
+        noInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataJson(v);
+            }
+        });
     }
 
     public void getDataJson(final View view) {
+        ll.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
         final JsonArrayRequest request = new JsonArrayRequest(urls,
                 new Response.Listener<JSONArray>() {
-
                     @Override
                     public void onResponse(JSONArray response) {
 
@@ -105,6 +105,8 @@ public class BeritaFragment extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            ll.setVisibility(View.GONE);
+                            noInternet.setVisibility(View.VISIBLE);
                         }
                         mAdapter = new BeritaAdapter(getActivity(), feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
@@ -115,8 +117,9 @@ public class BeritaFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
-                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
+//                        System.out.println(error.toString());
+                        Log.i("TAG", "onErrorResponse: "+error.toString());
+                        /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -127,7 +130,9 @@ public class BeritaFragment extends Fragment {
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
-                        snackbar.show();
+                        snackbar.show();*/
+                        ll.setVisibility(View.GONE);
+                        noInternet.setVisibility(View.VISIBLE);
                     }
                 }
         );

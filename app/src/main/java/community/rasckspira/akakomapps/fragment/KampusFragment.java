@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class KampusFragment extends Fragment {
     InfokampusAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
     private String urls;
-    public LinearLayout ll;
+    public LinearLayout ll, noInternet;
 
     @Nullable
 
@@ -71,15 +72,23 @@ public class KampusFragment extends Fragment {
     private void initView(View v){
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-
+        noInternet = (LinearLayout) v.findViewById(R.id.ll_nointernet);
         feedItemList = new ArrayList<Data>();
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_kampus);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
         urls = Config.URL_INFO;
+        noInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataJson(v);
+            }
+        });
     }
 
     public void getDataJson(final View view) {
+        ll.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
         final JsonArrayRequest request = new JsonArrayRequest(urls,
                 new Response.Listener<JSONArray>() {
 
@@ -103,6 +112,8 @@ public class KampusFragment extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            ll.setVisibility(View.GONE);
+                            noInternet.setVisibility(View.VISIBLE);
                         }
                         mAdapter = new InfokampusAdapter(getActivity(), feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
@@ -114,7 +125,8 @@ public class KampusFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         System.out.println(error.toString());
-                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
+                        Log.i("TAG", "onErrorResponse: "+error.toString());
+                        /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -125,7 +137,9 @@ public class KampusFragment extends Fragment {
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
-                        snackbar.show();
+                        snackbar.show();*/
+                        ll.setVisibility(View.GONE);
+                        noInternet.setVisibility(View.VISIBLE);
                     }
                 }
         );

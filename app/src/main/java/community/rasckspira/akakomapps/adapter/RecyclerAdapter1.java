@@ -17,9 +17,6 @@ import java.util.List;
 import community.rasckspira.akakomapps.model.Data;
 import community.rasckspira.akakomapps.R;
 
-/**
- * Created by dedevalen on 14/09/15.
- */
 public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.MyViewHolder> {
 
 

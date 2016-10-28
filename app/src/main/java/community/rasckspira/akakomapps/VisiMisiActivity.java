@@ -32,7 +32,7 @@ public class VisiMisiActivity extends AppCompatActivity {
     private TextView txtVisi;
     private TextView txtMisi;
     private String urlVisiMisi;
-    public LinearLayout ll;
+    public LinearLayout ll, noInternet;
     private ProgressBar loading;
     private RelativeLayout activity;
     @Override
@@ -44,6 +44,7 @@ public class VisiMisiActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("Visi dan Misi");
 
         initView();
         getDataJson();
@@ -59,12 +60,15 @@ public class VisiMisiActivity extends AppCompatActivity {
         activity = (RelativeLayout) findViewById(R.id.activity_visi_misi);
         ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
+        noInternet = (LinearLayout) findViewById(R.id.ll_nointernet);
         txtMisi = (TextView) findViewById(R.id.misi);
         txtVisi = (TextView) findViewById(R.id.visi);
         loading = (ProgressBar) findViewById(R.id.loading);
         urlVisiMisi = Config.URL_VISI_MISI;
     }
     public void getDataJson() {
+        ll.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
         final JsonArrayRequest request = new JsonArrayRequest(urlVisiMisi,
                 new Response.Listener<JSONArray>() {
 
@@ -83,6 +87,8 @@ public class VisiMisiActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            ll.setVisibility(View.GONE);
+                            noInternet.setVisibility(View.VISIBLE);
                         }
                     }
                 },
@@ -91,22 +97,22 @@ public class VisiMisiActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
-                        final Snackbar snackbar = Snackbar.make(activity, "Koneksi bermasalah...", LENGTH_INDEFINITE);
+                        //                        System.out.println(error.toString());
+                        Log.i("TAG", "onErrorResponse: "+error.toString());
+                        /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
-                                getDataJson();
-                                loading.setVisibility(View.VISIBLE);
+                                getDataJson(view);
                             }
                         });
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
-                        snackbar.show();
-                        loading.setVisibility(View.GONE);
-                        Log.i(TAG, "onErrorResponse: "+urlVisiMisi);
+                        snackbar.show();*/
+                        ll.setVisibility(View.GONE);
+                        noInternet.setVisibility(View.VISIBLE);
 
                     }
                 }

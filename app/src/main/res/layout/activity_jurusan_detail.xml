@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_jurusan_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="community.rasckspira.akakomapps.DetailActivity">
+    tools:context="community.rasckspira.akakomapps.JurusanDetailActivity">
 
     <include
         android:id="@+id/tolbar"
@@ -18,46 +19,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center|top">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_judul"
+                android:id="@+id/judul_jurusan"
                 android:text="ini judul"
                 android:textStyle="bold"
-                android:paddingBottom="10dp"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textIsSelectable="false" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_detail"
+                android:id="@+id/deskripsi_jurusan"
                 android:text="ini detail"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:paddingTop="10dp"
-                android:textAlignment="center"
-                android:gravity="center"
+                android:paddingBottom="20dp"
                 android:layout_gravity="center_vertical" />
-
             <Button
+                android:id="@+id/btn_more_jurusan"
+                android:background="@color/colorPrimary"
+                android:text="Lihat selengkapnya"
+                android:padding="15dp"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:textColor="@color/colorGreen"
-                android:text="Selengkapnya..."
-                android:padding="10dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:id="@+id/btn_link" />
-
+                android:layout_height="wrap_content" />
         </LinearLayout>
-
-
     </ScrollView>
-
-
 </RelativeLayout>

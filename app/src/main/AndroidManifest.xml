@@ -34,7 +34,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".DetailActivity" />
         <activity android:name=".DetailBeritaActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -54,7 +53,10 @@
         <activity android:name=".VisiMisiActivity" />
         <activity android:name=".JurusanActivity" />
         <activity android:name=".JabatanActivity" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".JurusanDetailActivity" />
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>

@@ -15,20 +15,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import community.rasckspira.akakomapps.model.Data;
-import community.rasckspira.akakomapps.DetailActivity;
+import community.rasckspira.akakomapps.JurusanDetailActivity;
 import community.rasckspira.akakomapps.R;
+import community.rasckspira.akakomapps.model.Data;
 
-/**
- * Created by dedevalen on 14/09/15.
- */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class JurusanAdapter extends RecyclerView.Adapter<JurusanAdapter.MyViewHolder> {
 
 
     List<Data> mItems;
     Context mContext;
 
-    public RecyclerAdapter(Context context, List<Data> mItems) {
+    public JurusanAdapter(Context context, List<Data> mItems) {
 
         this.mItems = mItems;
         this.mContext = context;
@@ -37,7 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recycler_view, null);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_jurusan, null);
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
@@ -46,9 +43,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
         Data item = mItems.get(i);
 
-
-        myViewHolder.judul.setText(item.getNama().toString());
-        myViewHolder.aDetail = item.getDetail();
+        myViewHolder.namaJurusan.setText(item.getNama().toString());
+        myViewHolder.desJurusan.setText(item.getDetail().toString());
         myViewHolder.aLink = item.getLink();
 
 
@@ -63,9 +59,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView judul;
-        public TextView desJudul;
-        public String aDetail;
+        public TextView namaJurusan;
+        public TextView desJurusan;
         public String aLink;
         public CardView cv;
 
@@ -78,8 +73,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
             //this.img = (ImageView)itemView.findViewById(R.id.img);
-            this.judul = (TextView) itemView.findViewById(R.id.person_name);
-            this.desJudul = (TextView) itemView.findViewById(R.id.judul_des);
+            this.namaJurusan = (TextView) itemView.findViewById(R.id.nama_jurusan);
+            this.desJurusan = (TextView) itemView.findViewById(R.id.deskripsi_jurusan);
             this.cv = (CardView) itemView.findViewById(R.id.cv);
 
             itemView.setOnClickListener(this);
@@ -90,11 +85,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public void onClick(View view) {
 
             Context Mcontext = itemView.getContext();
-            Intent intent = new Intent(Mcontext, DetailActivity.class);
-            intent.putExtra("mJudul", judul.getText());
-            intent.putExtra("mdesJudul", desJudul.getText());
-            intent.putExtra("mDetail", aDetail);
-            intent.putExtra("mLink", aLink);
+            Intent intent = new Intent(Mcontext, JurusanDetailActivity.class);
+            intent.putExtra(JurusanDetailActivity.KEY_NAMA, namaJurusan.getText());
+            intent.putExtra(JurusanDetailActivity.KEY_DESKRIPSI, desJurusan.getText());
+            intent.putExtra(JurusanDetailActivity.KEY_LINK, aLink);
             Mcontext.startActivity(intent);
 
         }

@@ -1,25 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tentang Aplikasi"
-            android:padding="12dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/white" />
-    </LinearLayout>
-
+    android:layout_height="match_parent"
+    tools:context="community.rasckspira.akakomapps.AboutActivity">
+    <include
+        android:id="@+id/tolbar"
+        layout="@layout/app_bar"/>
     <ScrollView
+        android:layout_below="@+id/tolbar"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
@@ -94,16 +84,17 @@
                 android:background="@color/colorGreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
-         <!--  <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Facebook Fanspage RackSpira"
-                android:textColor="@color/colorGreen"
-                android:textSize="14sp"
-                android:padding="6dp"
-                android:textStyle="bold|italic"
-                android:id="@+id/url" />-->
+                android:padding="10dp"
+                android:layout_marginBottom="20dp"/>
+            <!--  <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Facebook Fanspage RackSpira"
+                   android:textColor="@color/colorGreen"
+                   android:textSize="14sp"
+                   android:padding="6dp"
+                   android:textStyle="bold|italic"
+                   android:id="@+id/url" />-->
 
             <!-- <TextView
                 android:layout_width="wrap_content"
@@ -118,4 +109,4 @@
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>

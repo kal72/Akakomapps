@@ -15,12 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import community.rasckspira.akakomapps.adapter.MenuAdapter;
-import community.rasckspira.akakomapps.fragment.BeritaFragment;
-import community.rasckspira.akakomapps.fragment.VisiMisiFragment;
-import community.rasckspira.akakomapps.fragment.JurusanFragment;
-import community.rasckspira.akakomapps.fragment.ProfileFragment;
-import community.rasckspira.akakomapps.fragment.FragmentJabatan;
-import community.rasckspira.akakomapps.fragment.KampusFragment;
+import community.rasckspira.akakomapps.fragment.DialogFrament;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -112,8 +107,10 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, KontakMapsActivity.class));
                         return true;
                     case R.id.nav_tentangaplikasi:
-                        DialogFrament customDialogFragment = new DialogFrament();
+                        /*DialogFrament customDialogFragment = new DialogFrament();
                         customDialogFragment.show(getSupportFragmentManager(), null);
+                        return true;*/
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         return true;
 
                     default:

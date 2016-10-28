@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -26,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView judulProfil;
     private TextView isiProfil;
     private String urls = Config.URL_PROFILE;
-    public LinearLayout ll;
+    public LinearLayout ll, noInternet;
     private RelativeLayout activity;
     private Toolbar toolbar;
     @Override
@@ -50,13 +51,21 @@ public class ProfileActivity extends AppCompatActivity {
     private void initView(){
         activity = (RelativeLayout) findViewById(R.id.activity_profile);
         ll = (LinearLayout) findViewById(R.id.ll);
+        noInternet = (LinearLayout) findViewById(R.id.ll_nointernet);
         ll.setVisibility(View.VISIBLE);
         judulProfil = (TextView) findViewById(R.id.judul_profil);
         isiProfil = (TextView) findViewById(R.id.isi_profil);
+        noInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataJson();
+            }
+        });
     }
 
     private void getDataJson() {
-
+        ll.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
         final JsonArrayRequest request = new JsonArrayRequest(urls,
                 new Response.Listener<JSONArray>() {
 
@@ -75,7 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
                             //snackbars.dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            //snackbars.dismiss();
+                            ll.setVisibility(View.GONE);
+                            noInternet.setVisibility(View.VISIBLE);
                         }
                     }
                 },
@@ -84,21 +94,22 @@ public class ProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
-
-
-                        final Snackbar snackbar = Snackbar.make(activity, "koneksi bermasalah...", Snackbar.LENGTH_INDEFINITE);
+                        //                        System.out.println(error.toString());
+                        Log.i("TAG", "onErrorResponse: "+error.toString());
+                        /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 snackbar.dismiss();
-                                getDataJson();
+                                getDataJson(view);
                             }
                         });
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
-                        snackbar.show();
+                        snackbar.show();*/
+                        ll.setVisibility(View.GONE);
+                        noInternet.setVisibility(View.VISIBLE);
                     }
                 }
         );

@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 
 public class DetailBeritaActivity extends AppCompatActivity {
 
-    public static final String KEY_JUDUL = "judul";
+    public static final String KEY_JUDUL = "namaJurusan";
     public static final String KEY_TANGGAL = "tanggal";
     public static final String KEY_URL_FOTO = "url_photo";
     public static final String KEY_DESKRIPSI = "deskripsi";
