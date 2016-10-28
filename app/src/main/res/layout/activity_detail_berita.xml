@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="community.rasckspira.akakomapps.DetailActivity">
+    tools:context="community.rasckspira.akakomapps.DetailBeritaActivity">
 
     <include
         android:id="@+id/tolbar"
@@ -18,30 +18,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:gravity="center|top">
+            android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/berita_judul"
-                android:text="ini judul"
-                android:textStyle="bold"
-                android:paddingBottom="10dp"
-                android:textSize="20sp"
-                android:textIsSelectable="false"
-                android:gravity="center"
-                android:textAlignment="center" />
-
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/berita_judul"
+                    android:text="ini judul"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textIsSelectable="false" />
+                <TextView
+                    android:id="@+id/tgl_detail_berita"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="21 mei 2016"
+                    android:textSize="12sp"
+                    android:layout_gravity="center_vertical" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/foto_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/berita_detail"
                 android:text="ini detail"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:paddingTop="10dp"
-                android:textAlignment="center"
-                android:gravity="center"
                 android:layout_gravity="center_vertical" />
 
 

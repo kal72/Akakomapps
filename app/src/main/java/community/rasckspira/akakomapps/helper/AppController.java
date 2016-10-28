@@ -1,4 +1,4 @@
-package community.rasckspira.akakomapps;
+package community.rasckspira.akakomapps.helper;
 
 /**
  * Created by kristiawan on 10/12/15.

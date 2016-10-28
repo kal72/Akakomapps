@@ -1,9 +1,14 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/activity_jurusan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="community.rasckspira.akakomapps.fragment.KampusFragment">
-
+    tools:context="community.rasckspira.akakomapps.JurusanActivity">
+    <include
+        android:id="@+id/tolbar"
+        layout="@layout/app_bar" />
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
@@ -11,9 +16,11 @@
         android:gravity="center"
         android:background="#fbfbfb"
         android:orientation="vertical">
+
         <ProgressBar
             android:layout_width="50dp"
             android:layout_height="50dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,11 +50,10 @@
             android:text="Terjadi masalah, sentuh ikon untuk memuat kembali"
             android:padding="10dp" />
     </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_kampus"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionGroup="false" />
 
-</FrameLayout>
+</LinearLayout>

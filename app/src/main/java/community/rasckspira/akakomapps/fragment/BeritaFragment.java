@@ -8,9 +8,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,9 +28,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import community.rasckspira.akakomapps.AppController;
-import community.rasckspira.akakomapps.BeritaAdapter;
-import community.rasckspira.akakomapps.Data;
+import community.rasckspira.akakomapps.helper.AppController;
+import community.rasckspira.akakomapps.adapter.BeritaAdapter;
+import community.rasckspira.akakomapps.helper.Config;
+import community.rasckspira.akakomapps.model.Data;
 import community.rasckspira.akakomapps.R;
 
 import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
@@ -39,21 +42,12 @@ import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
 public class BeritaFragment extends Fragment {
 
 
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    BeritaAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private BeritaAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
-    private String urls = "http://service.rackspira.community/rest/rjson/berita.json";
-    public LinearLayout ll;
-
-    @Nullable
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-    }
+    private String urls;
+    public LinearLayout ll, noInternet;
 
 
     @Override
@@ -61,24 +55,34 @@ public class BeritaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_berita, container, false);
 
+        initView(v);
+        getDataJson(v);
+        return v;
+    }
+
+    private void initView(View v){
+        noInternet = (LinearLayout) v.findViewById(R.id.ll_nointernet);
         ll = (LinearLayout) v.findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-
+        mLayoutManager = new LinearLayoutManager(getActivity());
         feedItemList = new ArrayList<Data>();
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_berita);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        getDataJson(v);
-
-
-        return v;
+        urls = Config.URL_BERITA;
+        noInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataJson(v);
+            }
+        });
     }
 
     public void getDataJson(final View view) {
+        ll.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
         final JsonArrayRequest request = new JsonArrayRequest(urls,
                 new Response.Listener<JSONArray>() {
-
                     @Override
                     public void onResponse(JSONArray response) {
 
@@ -88,10 +92,12 @@ public class BeritaFragment extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 Data item = new Data();
-                                item.setNama(jsonObject.getString("judul"));
-                                String deskripsi = jsonObject.getString("isi");
-                                item.setJudul(deskripsi.substring(0, 100));
-                                item.setDetail(deskripsi);
+                                item.setJudul(jsonObject.getString("jBerita"));
+                                item.setWaktu(jsonObject.getString("wBerita"));
+                                item.setFoto(jsonObject.getString("gamBerita"));
+                                item.setDetail(jsonObject.getString("isBerita"));
+//                                item.setJudul(deskripsi.substring(0, 100));
+//                                item.setDetail(deskripsi);
                                 feedItemList.add(item);
 
                             }
@@ -99,6 +105,8 @@ public class BeritaFragment extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            ll.setVisibility(View.GONE);
+                            noInternet.setVisibility(View.VISIBLE);
                         }
                         mAdapter = new BeritaAdapter(getActivity(), feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
@@ -109,8 +117,9 @@ public class BeritaFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
-                        final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
+//                        System.out.println(error.toString());
+                        Log.i("TAG", "onErrorResponse: "+error.toString());
+                        /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -121,7 +130,9 @@ public class BeritaFragment extends Fragment {
                         View sbView = snackbar.getView();
                         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                         textView.setTextColor(Color.WHITE);
-                        snackbar.show();
+                        snackbar.show();*/
+                        ll.setVisibility(View.GONE);
+                        noInternet.setVisibility(View.VISIBLE);
                     }
                 }
         );

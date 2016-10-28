@@ -1,4 +1,4 @@
-package community.rasckspira.akakomapps;
+package community.rasckspira.akakomapps.adapter;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by dedevalen on 14/09/15.
- */
+import community.rasckspira.akakomapps.model.Data;
+import community.rasckspira.akakomapps.R;
+
 public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerAdapter1.MyViewHolder> {
 
 

@@ -11,28 +11,33 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backback">
-
-
+        android:background="#e6e6e6">
         <include
             layout="@layout/app_bar"
             android:id="@+id/tolbar" />
-
-
-        <FrameLayout
+       <!-- <FrameLayout
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tolbar">
-
-        </FrameLayout>
+        </FrameLayout>-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_menu"
+            android:layout_below="@+id/tolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabSelectedTextColor="#fff"
+            android:background="@color/colorPrimary"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_home"
+            android:layout_below="@+id/tab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
     </RelativeLayout>
-
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/snackbarCoordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.design.widget.CoordinatorLayout>
     <!-- nav drawer-->
 
@@ -48,6 +53,4 @@
         app:itemIconTint="@color/colorDrawer"
         app:itemTextColor="@color/drawer_selector"
         app:menu="@menu/drawer_view" />
-
-
 </android.support.v4.widget.DrawerLayout>

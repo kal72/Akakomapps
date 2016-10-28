@@ -1,17 +1,12 @@
-package community.rasckspira.akakomapps.fragment;
+package community.rasckspira.akakomapps;
 
-
-import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,69 +22,67 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import community.rasckspira.akakomapps.adapter.JurusanAdapter;
 import community.rasckspira.akakomapps.helper.AppController;
 import community.rasckspira.akakomapps.helper.Config;
 import community.rasckspira.akakomapps.model.Data;
-import community.rasckspira.akakomapps.adapter.InfokampusAdapter;
-import community.rasckspira.akakomapps.R;
 
-import static android.support.design.widget.Snackbar.LENGTH_INDEFINITE;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-public class KampusFragment extends Fragment {
-
-
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    InfokampusAdapter mAdapter;
+public class JurusanActivity extends AppCompatActivity {
+    private LinearLayout activity;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private JurusanAdapter mAdapter;
     private List<Data> feedItemList = new ArrayList<Data>();
-    private String urls;
+    private String urlJurusan;
     public LinearLayout ll, noInternet;
-
-    @Nullable
+    private Toolbar toolbar;
+    private TextView title;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        setContentView(R.layout.activity_jurusan);
+        initView();
+        getDataJson();
     }
 
+    private void initView(){
+        toolbar = (Toolbar) findViewById(R.id.tolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("Jurusan");
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_kampus, container, false);
-
-        initView(v);
-        getDataJson(v);
-
-        return v;
-    }
-
-    private void initView(View v){
-        ll = (LinearLayout) v.findViewById(R.id.ll);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        title = (TextView) findViewById(R.id.toolbar_title);
+        title.setText("Jurusan");
+        mLayoutManager = new LinearLayoutManager(this);
+        ll = (LinearLayout) findViewById(R.id.ll);
         ll.setVisibility(View.VISIBLE);
-        noInternet = (LinearLayout) v.findViewById(R.id.ll_nointernet);
+        noInternet = (LinearLayout) findViewById(R.id.ll_nointernet);
+        activity = (LinearLayout) findViewById(R.id.activity_jurusan);
         feedItemList = new ArrayList<Data>();
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_kampus);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        urls = Config.URL_INFO;
+        urlJurusan = Config.URL_JURUSAN;
         noInternet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDataJson(v);
+                getDataJson();
             }
         });
     }
 
-    public void getDataJson(final View view) {
+    public void getDataJson() {
         ll.setVisibility(View.VISIBLE);
         noInternet.setVisibility(View.GONE);
-        final JsonArrayRequest request = new JsonArrayRequest(urls,
+        final JsonArrayRequest request = new JsonArrayRequest(urlJurusan,
                 new Response.Listener<JSONArray>() {
 
                     @Override
@@ -101,21 +94,19 @@ public class KampusFragment extends Fragment {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject jsonObject = response.getJSONObject(i);
                                 Data item = new Data();
-                                item.setJudul(jsonObject.getString("jInfo"));
-                                item.setWaktu(jsonObject.getString("wInfo"));
-                                item.setDetail(jsonObject.getString("isInfo"));
-                                item.setFoto(jsonObject.getString("gamInfo"));
+                                item.setNama(jsonObject.getString("namJurusan"));
+                                item.setDetail(jsonObject.getString("detJurusan"));
+                                item.setLink(jsonObject.getString("link"));
                                 feedItemList.add(item);
 
                             }
                             ll.setVisibility(View.GONE);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             ll.setVisibility(View.GONE);
                             noInternet.setVisibility(View.VISIBLE);
                         }
-                        mAdapter = new InfokampusAdapter(getActivity(), feedItemList);
+                        mAdapter = new JurusanAdapter(JurusanActivity.this, feedItemList);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                 },
@@ -124,7 +115,7 @@ public class KampusFragment extends Fragment {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println(error.toString());
+                        //                        System.out.println(error.toString());
                         Log.i("TAG", "onErrorResponse: "+error.toString());
                         /*final Snackbar snackbar = Snackbar.make(view.getRootView(), "Koneksi bermasalah...", LENGTH_INDEFINITE);
                         snackbar.setAction("RETRY", new View.OnClickListener() {
@@ -146,5 +137,4 @@ public class KampusFragment extends Fragment {
         request.setRetryPolicy(new DefaultRetryPolicy(10 * 100, 1, 1.0f));
         AppController.getInstance().addToRequestQueue(request);
     }
-
 }

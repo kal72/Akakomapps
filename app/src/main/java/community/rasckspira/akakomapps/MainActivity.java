@@ -3,6 +3,8 @@ package community.rasckspira.akakomapps;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import community.rasckspira.akakomapps.fragment.BeritaFragment;
-import community.rasckspira.akakomapps.fragment.Content2Fragment;
-import community.rasckspira.akakomapps.fragment.Content3Fragment;
-import community.rasckspira.akakomapps.fragment.ContentFragment;
-import community.rasckspira.akakomapps.fragment.FragmentJabatan;
-import community.rasckspira.akakomapps.fragment.KampusFragment;
+import community.rasckspira.akakomapps.adapter.MenuAdapter;
+import community.rasckspira.akakomapps.fragment.DialogFrament;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,22 +23,28 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private TabLayout tabMenu;
+    private ViewPager vpHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.tolbar);
         setSupportActionBar(toolbar);
 
-        ContentFragment fragment = new ContentFragment();
+        MenuAdapter adapter = new MenuAdapter(getSupportFragmentManager());
+        vpHome = (ViewPager) findViewById(R.id.vp_home);
+        vpHome.setAdapter(adapter);
+        tabMenu = (TabLayout) findViewById(R.id.tab_menu);
+        tabMenu.setupWithViewPager(vpHome);
+        tabMenu.getTabAt(0).setText("BERITA");
+        tabMenu.getTabAt(1).setText("INFO");
+
+       /* ProfileFragment fragment = new ProfileFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
-        fragmentTransaction.commit();
-
-        //Initializing NavigationView
+        fragmentTransaction.commit();*/
         navigationView = (NavigationView) findViewById(R.id.navigationView);
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
@@ -62,52 +66,51 @@ public class MainActivity extends AppCompatActivity {
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
 
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                    //Replacing the main content with ProfileFragment Which is our Inbox View;
                     case R.id.nav_home:
-                        ContentFragment fragment = new ContentFragment();
+                        /*ProfileFragment fragment = new ProfileFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame, fragment);
                         fragmentTransaction.commit();
-                        return true;
+                        return true;*/
 
                     // For rest of the options we just show a toast on click
 
                     case R.id.nav_profil:
-                        Content2Fragment fragment2 = new Content2Fragment();
+                        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        return true;
+                       /* VisiMisiFragment fragment2 = new VisiMisiFragment();
                         fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame, fragment2);
                         fragmentTransaction.commit();
+                        return true;*/
+                    case R.id.nav_visi_misi:
+                        startActivity(new Intent(MainActivity.this, VisiMisiActivity.class));
                         return true;
                     case R.id.nav_programstudi:
-                        Content3Fragment fragment3 = new Content3Fragment();
+                        startActivity(new Intent(MainActivity.this, JurusanActivity.class));
+                        return true;
+                        /*JurusanFragment fragment3 = new JurusanFragment();
                         fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame, fragment3);
                         fragmentTransaction.commit();
-                        return true;
+                        return true;*/
                     case R.id.nav_jabatan:
-                        FragmentJabatan fragment4 = new FragmentJabatan();
+                        startActivity(new Intent(MainActivity.this, JabatanActivity.class));
+                        return true;
+                        /*FragmentJabatan fragment4 = new FragmentJabatan();
                         fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frame, fragment4);
                         fragmentTransaction.commit();
-                        return true;
-                    case R.id.nav_infokampus:
-                        KampusFragment fragment5 = new KampusFragment();
-                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment5);
-                        fragmentTransaction.commit();
-                        return true;
-                    case R.id.nav_beritaterbaru:
-                        BeritaFragment fragment6 = new BeritaFragment();
-                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, fragment6);
-                        fragmentTransaction.commit();
-                        return true;
+                        return true;*/
                     case R.id.nav_kontakkami:
                         startActivity(new Intent(MainActivity.this, KontakMapsActivity.class));
                         return true;
                     case R.id.nav_tentangaplikasi:
-                        DialogFrament customDialogFragment = new DialogFrament();
+                        /*DialogFrament customDialogFragment = new DialogFrament();
                         customDialogFragment.show(getSupportFragmentManager(), null);
+                        return true;*/
+                        startActivity(new Intent(MainActivity.this, AboutActivity.class));
                         return true;
 
                     default:
@@ -141,12 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
-
-
-
-
-
-
     }
 
     @Override
